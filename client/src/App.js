@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './style.css';
+import Weather from './components/Weather'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Weather />
     </div>
   );
 }
