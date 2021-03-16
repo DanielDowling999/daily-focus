@@ -1,0 +1,36 @@
+body{
+    background-color: white;
+}
+
+.container{
+    top: 40px;
+    left: 40px;
+    margin: auto;
+    width: 370px;
+    height: 379px;
+    border: 3px solid gray;
+    padding: 0px;
+}
+
+.weather-text-box{
+    
+    text-align: center;
+    background-color: lightblue;
+    height: 64px;
+}
+
+.weather-text{
+    font-size:36px;
+    
+}
+
+
+
+.icon-container{
+    float:left;
+}
+
+.discription{
+    float:right;
+}
+ 
