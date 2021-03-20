@@ -1,55 +1,29 @@
-import logo from './logo.svg';
-import './style.css';
-import Weather from './components/Weather'
+import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+
+import LandingPage from "./components/LandingPage";
+import Header from "./components/Header";
+import "./App.css";
 
 function App() {
-  return (
-    //<div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/components/index.js</code> and save to reload.
-    //       <br/>
-    //       ** DAILY FOCUS **
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-      <Weather />
-    //</div>
-  );
-}
-// import React from "react";
-// import logo from "./logo.svg";
-// import "./style.css";
+    return (
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/">
+                    <Redirect to="/signup" />
+                </Route>
 
-// function App() {
-//     return (
-//         <div className="App">
-//             <header className="App-header">
-//                 <img src={logo} className="App-logo" alt="logo" />
-//                 <p>
-//                     Edit <code>src/components/index.js</code> and save to reload.
-//                     <br />
-//                     ** DAILY FOCUS **
-//                 </p>
-//                 <a
-//                     className="App-link"
-//                     href="https://reactjs.org"
-//                     target="_blank"
-//                     rel="noopener noreferrer"
-//                 >
-//                     Learn React
-//                 </a>
-//             </header>
-//         </div>
-//     );
-// }
+                <Route exact path="/signup">
+                    <LandingPage />
+                </Route>
+
+                <Route exact path="/home">
+                    {/* Replace following component with actual Home component when created */}
+                    <Header />
+                </Route>
+            </Switch>
+        </BrowserRouter>
+    );
+}
 
 export default App;
