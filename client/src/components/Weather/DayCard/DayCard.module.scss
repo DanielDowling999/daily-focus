@@ -1,5 +1,57 @@
-.card{
-    display:flex;
+.card {
+    display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+
+.faColor {
+    color: #d9d9d9;
+}
+
+.iconContainer {
+    font-size: 20px;
+    width: 26px;
+    height: 26.5px;
+    left: 210px;
+}
+
+.lowTemp {
+    width: 24px;
+    height: 15.96px;
+    font-family: Ropa Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+}
+
+.highTemp {
+    width: 24px;
+    height: 15.96px;
+    font-family: Ropa Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+}
+
+.day {
+    width: 63px;
+    height: 24.94px;
+    font-family: Ropa Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    color: #000000;
 }

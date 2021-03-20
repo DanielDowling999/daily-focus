@@ -1,39 +1,46 @@
-
-.weatherWidget{
-    position: relative;
+.faColor {
+    color: #d9d9d9;
+}
+.weatherWidget {
     width: 450px;
     height: 560px;
-    
-    background-color:gray;
+    background-color: gray;
 }
 
-.container{
+.container {
+    width: 340px;
+    height: 400px;
+    left: 55px;
+    top: 79px;
+}
+
+.wholeRectangle {
     position: absolute;
     width: 340px;
     height: 399px;
     left: 55px;
     top: 80px;
-
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.25);
-    border-radius: 25px;   
+    border-radius: 25px;
 }
 
-.header{   
-    //position: absolute;
-    
+.headerRectangle {
+    position: absolute;
     width: 340px;
     height: 47.88px;
     left: 55px;
-    top: 80px;
-
-    background: #30A0F5;
+    top: 79px;
+    background: #30a0f5;
     border-radius: 25px 25px 0px 0px;
-    
 }
 
-.weatherText{
-    
+.weatherTextBox {
+    position: absolute;
+    width: 251px;
+    height: 47.88px;
+    left: 97px;
+    top: 79px;
     font-family: Ropa Sans;
     font-style: normal;
     font-weight: normal;
@@ -42,76 +49,88 @@
     display: flex;
     align-items: center;
     text-align: center;
-    color: #FFFFFF;
-    
+    color: #ffffff;
 }
 
-.weatherTextBox{
-   
-    width: 251px;
-    height: 47.88px;
-    left: 97px;
-    top: 79px;
-
-    align-items: center;
-    text-align: center;
-
-}
-
-
-
-.iconContainer{
-    float:left;
-}
-
-.description{
-    float:right;
-}
-
-.hourlyForecast{
-    //position: absolute;
-    width: 300px;
-    height: 67.83px;
-    left: 75px;
-    top: 247.58px;
-    //margin: auto;
-    background-color: white;
-    display:flex;
-    flex-direction:row;
-    justify-content: space-around;
-
-    
-
-}
-
-.dailyForecast{
-    //position: absolute;
-    width: 291px;
-    height: 123.69px;
-    left: 75px;
-    top: 341.34px;
-  
-    //margin: auto;
-    background-color: white;
-    display:flex;
-    flex-direction: column;
-
-
-  
-
-}
-
-
-.currentWeatherBox{
-    //position: absolute;
+.currentWeatherBox {
+    position: absolute;
     width: 300px;
     height: 80.8px;
     left: 75px;
     top: 140.85px;
-    background-color: white;
-    display: flex;
-    justify-content: space-around;
-
-
 }
- 
+
+.temp {
+    font-family: Ropa Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.tempBounds {
+    width: 82px;
+    height: 20.95px;
+    left: 291px;
+    top: 200.7px;
+    font-family: Ropa Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    margin-top: 2px;
+    margin-left: 100px;
+    color: #000000;
+}
+
+.weatherNZ {
+    width: 179px;
+    height: 19.95px;
+    left: 196px;
+    top: 140.85px;
+    font-family: Ropa Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: #000000;
+}
+
+.iconContainer {
+    font-size: 70px;
+    width: 100px;
+    height: 80.8px;
+    left: 75px;
+    top: 140.85px;
+    float: left;
+}
+
+.hourlyForecast {
+    position: absolute;
+    width: 300px;
+    height: 67.83px;
+    left: 75px;
+    top: 247.58px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.dailyForecast {
+    position: absolute;
+    width: 291px;
+    height: 123.69px;
+    left: 75px;
+    top: 341.34px;
+    display: flex;
+    flex-direction: column;
+}

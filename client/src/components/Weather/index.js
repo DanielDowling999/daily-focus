@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-
 import DayCard from "./DayCard/index.js";
 import HourCard from "./HourCard/index.js";
-
-import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud } from "@fortawesome/free-solid-svg-icons";
 import { faCloudRain } from "@fortawesome/free-solid-svg-icons";
@@ -16,12 +13,12 @@ import styles from "./style.module.scss";
 const API_KEY = "2d6026fb2c6a6ef3bbbc1f81c56baf04";
 
 const weatherIcon = {
-    Thunderstorm: <FontAwesomeIcon icon={faBolt} />,
-    Rain: <FontAwesomeIcon icon={faCloudRain} />,
-    Snow: <FontAwesomeIcon icon={faSnowflake} />,
-    Atmosphere: <FontAwesomeIcon icon={faSmog} />,
-    Clear: <FontAwesomeIcon icon={faSun} />,
-    Clouds: <FontAwesomeIcon icon={faCloud} />,
+    Thunderstorm: <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
+    Rain: <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
+    Snow: <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
+    Atmosphere: <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
+    Clear: <FontAwesomeIcon icon={faSun} className={styles.faColor} />,
+    Clouds: <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
 };
 
 function Weather() {
@@ -72,8 +69,7 @@ function Weather() {
     };
 
     const formatDayCards = (dailyData) => {
-        //return dailyData.map((day, index) => <DayCard day = {day} key={index} />);
-        return dailyData.map((day) => <DayCard day={day} />);
+        return dailyData.map((day, index) => <DayCard day={day} key={index} />);
     };
 
     const formatHourCards = (hourlyData) => {
@@ -91,7 +87,7 @@ function Weather() {
                 setCelsius(toCelsius(response.main.temp));
                 setMaxTemp(toCelsius(response.main.temp_max));
                 setMinTemp(toCelsius(response.main.temp_min));
-                setDescription(response.weather[0].description);
+                setDescription(response.weather[0].main);
                 getWeatherIcon(response.weather[0].id);
             });
 
@@ -112,32 +108,22 @@ function Weather() {
         )
             .then((res) => res.json())
             .then((data) => {
-                //hconsole.log(data.hourly[0].dt);
-                // let dt = data.hourly[0].dt;
-                //var date = new Date(dt * 1000);
-                // Hours part from the timestamp
-                //var hours = date.getHours();
-                //console.log(hours);
                 let hourArray = data.hourly.slice(0, 6);
-                //console.log(hourArray);
-                SetHourlyData(hourArray);
 
-                //console.log(data[0]);
+                SetHourlyData(hourArray);
             });
     }, []);
 
     return (
         <div className={styles.weatherWidget}>
             <div className={styles.container}>
-                <div className={styles.header}>
-                    <div className={styles.weatherTextBox}>
-                        <div className={styles.weatherText}>Weather</div>
-                    </div>
-                </div>
-
+                <div className={styles.wholeRectangle}></div>
+                <div className={styles.headerRectangle}></div>
+                <div className={styles.weatherTextBox}>Weather</div>
+                <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
+                <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
                 <div className={styles.currentWeatherBox}>
                     <div className={styles.iconContainer}>{icon}</div>
-
                     <div className={styles.description}>
                         <div className={styles.weatherNZ}>{description}|Auckland, NZ</div>
                         <div className={styles.temp}>{celsius}°C</div>
@@ -146,10 +132,6 @@ function Weather() {
                         </div>
                     </div>
                 </div>
-
-                <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
-
-                <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
             </div>
         </div>
     );

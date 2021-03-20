@@ -11,12 +11,12 @@ import styles from "./DayCard.module.scss";
 var moment = require("moment");
 
 const weatherIcon = {
-    Thunderstorm: <FontAwesomeIcon icon={faBolt} />,
-    Rain: <FontAwesomeIcon icon={faCloudRain} />,
-    Snow: <FontAwesomeIcon icon={faSnowflake} />,
-    Atmosphere: <FontAwesomeIcon icon={faSmog} />,
-    Clear: <FontAwesomeIcon icon={faSun} />,
-    Clouds: <FontAwesomeIcon icon={faCloud} />,
+    Thunderstorm: <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
+    Rain: <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
+    Snow: <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
+    Atmosphere: <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
+    Clear: <FontAwesomeIcon icon={faSun} className={styles.faColor} />,
+    Clouds: <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
 };
 
 function DayCard(props) {
@@ -55,9 +55,13 @@ function DayCard(props) {
         return cell;
     };
 
-    let date = new Date();
-    const weekday = props.day.dt * 1000;
-    date.setTime(weekday);
+    var i = 0;
+    var data = { list: [{ dt: 1522666800 }] };
+
+    var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+    var dayNum = new Date(props.day.dt * 1000).getDay();
+    var result = days[dayNum];
+    console.log(result);
 
     useEffect(() => {
         getWeatherIcon(props.day.weather[0].id);
@@ -65,14 +69,12 @@ function DayCard(props) {
 
     return (
         <div className={styles.card}>
-            <div className="day">{moment(date).format("dddd")}</div>
-            <div>{icon}</div>
+            <div className={styles.day}>{result}</div>
+            <div className={styles.iconContainer}>{icon}</div>
 
-            <div>{toCelsius(props.day.main.temp_min)} °C</div>
-            <div>{toCelsius(props.day.main.temp_max)} °C</div>
+            <div className={styles.lowTemp}>{toCelsius(props.day.main.temp_min)} °C</div>
+            <div className={styles.highTemp}>{toCelsius(props.day.main.temp_max)} °C</div>
         </div>
-
-        //<div>hi</div>
     );
 }
 

@@ -11,12 +11,12 @@ import styles from "./HourCard.module.scss";
 var moment = require("moment");
 
 const weatherIcon = {
-    Thunderstorm: <FontAwesomeIcon icon={faBolt} />,
-    Rain: <FontAwesomeIcon icon={faCloudRain} />,
-    Snow: <FontAwesomeIcon icon={faSnowflake} />,
-    Atmosphere: <FontAwesomeIcon icon={faSmog} />,
-    Clear: <FontAwesomeIcon icon={faSun} />,
-    Clouds: <FontAwesomeIcon icon={faCloud} />,
+    Thunderstorm: <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
+    Rain: <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
+    Snow: <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
+    Atmosphere: <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
+    Clear: <FontAwesomeIcon icon={faSun} className={styles.faColor} />,
+    Clouds: <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
 };
 
 function HourCard(props) {
@@ -55,10 +55,6 @@ function HourCard(props) {
         return cell;
     };
 
-    /*let date = new Date();
-    const weekday = props.hour.dt * 1000;
-    date.setTime(weekday);*/
-
     let dt = props.hour.dt;
     let date = new Date(dt * 1000);
     // Hours part from the timestamp
@@ -76,9 +72,9 @@ function HourCard(props) {
 
     return (
         <div className={styles.hourCard}>
-            <div className="hour">{moment(formattedTime, "HH:mm:ss").format("hh:mm a")}</div>
-            <div>{icon}</div>
-            <div>{toCelsius(props.hour.temp)} °C</div>
+            <div className={styles.time}>{moment(formattedTime, "HH:mm:ss").format("hh:mma")}</div>
+            <div className={styles.icon}>{icon}</div>
+            <div className={styles.temp}>{toCelsius(props.hour.temp)}°C</div>
         </div>
     );
 }
