@@ -51,7 +51,8 @@ function HourCard(props) {
     };
 
     const toCelsius = (temp) => {
-        let cell = Math.floor(temp - 273.15);
+        const kelvinToCelsiusDiff = 273.15;
+        let cell = Math.floor(temp - kelvinToCelsiusDiff);
         return cell;
     };
 

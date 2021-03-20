@@ -64,7 +64,8 @@ function Weather() {
     };
 
     const toCelsius = (temp) => {
-        let cell = Math.floor(temp - 273.15);
+        const kelvinToCelsiusDiff = 273.15;
+        let cell = Math.floor(temp - kelvinToCelsiusDiff);
         return cell;
     };
 
@@ -82,7 +83,6 @@ function Weather() {
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=Auckland&appid=${API_KEY}`)
             .then((res) => res.json())
             .then((response) => {
-                //console.log(response);
                 setMain(response.weather[0].main);
                 setCelsius(toCelsius(response.main.temp));
                 setMaxTemp(toCelsius(response.main.temp_max));
