@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly 1`] = `
+<div
+  className="weatherWidget"
+>
+  <div
+    className="container"
+  >
+    <div
+      className="wholeRectangle"
+    />
+    <div
+      className="headerRectangle"
+    />
+    <div
+      className="weatherTextBox"
+    >
+      Weather
+    </div>
+    <div
+      className="dailyForecast"
+    />
+    <div
+      className="hourlyForecast"
+    />
+    <div
+      className="currentWeatherBox"
+    >
+      <div
+        className="iconContainer"
+      />
+      <div
+        className="description"
+      >
+        <div
+          className="weatherNZ"
+        >
+          
+          |Auckland, NZ
+        </div>
+        <div
+          className="temp"
+        >
+          °C
+        </div>
+        <div
+          className="tempBounds"
+        >
+          L:
+          °C|H:
+          °C
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
