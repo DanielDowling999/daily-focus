@@ -74,7 +74,7 @@ function Weather() {
     };
 
     const formatHourCards = (hourlyData) => {
-        let hourArray = hourlyData.map((hour) => <HourCard hour={hour} />);
+        let hourArray = hourlyData.map((hour, index) => <HourCard hour={hour} key={index} />);
         return hourArray;
     };
 
