@@ -117,20 +117,22 @@ function Weather() {
     return (
         <div className={styles.weatherWidget}>
             <div className={styles.container}>
-                <div className={styles.wholeRectangle}></div>
-                <div className={styles.headerRectangle}></div>
-                <div className={styles.weatherTextBox}>Weather</div>
-                <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
-                <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
-                <div className={styles.currentWeatherBox}>
-                    <div className={styles.iconContainer}>{icon}</div>
-                    <div className={styles.description}>
-                        <div className={styles.weatherNZ}>{description}|Auckland, NZ</div>
-                        <div className={styles.temp}>{celsius}°C</div>
-                        <div className={styles.tempBounds}>
-                            L:{minTemp}°C|H:{maxTemp}°C
+                <div className={styles.headerRectangle}>
+                    <div className={styles.weatherTextBox}>Weather</div>
+                </div>
+                <div className={styles.content}>
+                    <div className={styles.currentWeatherBox}>
+                        <div className={styles.iconContainer}>{icon}</div>
+                        <div className={styles.description}>
+                            <div className={styles.weatherNZ}>{description}|Auckland, NZ</div>
+                            <div className={styles.temp}>{celsius}°C</div>
+                            <div className={styles.tempBounds}>
+                                L:{minTemp}°C|H:{maxTemp}°C
+                            </div>
                         </div>
                     </div>
+                    <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
+                    <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
                 </div>
             </div>
         </div>
