@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly 1`] = `
+<WithStyles(ForwardRef(Grid))
+  item={true}
+  xs={6}
+>
+  <WithStyles(ForwardRef(Card))
+    className="card false"
+    onClick={[Function]}
+    raised={true}
+  >
+    <img
+      className="media"
+    />
+    <WithStyles(ForwardRef(CardContent))
+      className="cardContent"
+    />
+  </WithStyles(ForwardRef(Card))>
+</WithStyles(ForwardRef(Grid))>
+`;

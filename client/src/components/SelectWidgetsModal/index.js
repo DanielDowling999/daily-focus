@@ -9,7 +9,7 @@ import toDoList from "../../images/toDoList.svg";
 import calendar from "../../images/calendar.svg";
 import timer from "../../images/timer.svg";
 import styles from "./style.module.scss";
-import WidgetIcon from "../WidgetIcon";
+import WidgetIcon from "./WidgetIcon";
 
 const useStyles = makeStyles({
     button: {
@@ -20,9 +20,8 @@ const useStyles = makeStyles({
     },
 });
 
-function SelectWidgetsModal() {
+function SelectWidgetsModal({ selectedWidgets, setSelectedWidgets }) {
     const [open, setOpen] = useState(false);
-    const [selectedWidgets, setSelectedWidgets] = useState([]);
 
     const classes = useStyles();
 

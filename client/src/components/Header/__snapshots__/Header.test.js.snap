@@ -30,18 +30,7 @@ exports[`it renders correctly 1`] = `
   <div
     className="addWidget"
   >
-    <WithStyles(ForwardRef(Button))
-      classes={
-        Object {
-          "label": "makeStyles-label-2",
-          "root": "makeStyles-root-1",
-        }
-      }
-      color="primary"
-      variant="contained"
-    >
-      Add Widget
-    </WithStyles(ForwardRef(Button))>
+    <SelectWidgetsModal />
   </div>
   <div
     className="userIcon"

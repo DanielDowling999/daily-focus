@@ -6,12 +6,14 @@ import styles from "./style.module.scss";
 
 const useStyles = makeStyles({
     todoListTitle: {
+        borderRadius: "25px 25px 0 0",
+        fontSize: "24px",
+        height: "16px",
+        width: "308px",
         textAlign: "center",
         backgroundColor: "#30A0F5",
         color: "white",
         marginBottom: "1.5vh",
-        paddingTop: "2.3vh",
-        paddingBottom: "2.3vh",
     },
     todoInputTextField: {
         [`& fieldset`]: {
@@ -46,9 +48,9 @@ function AddToDo({ cancelClicked, addClicked }) {
     const classes = useStyles();
 
     return (
-        <div>
+        <div className={styles.container}>
             <CardHeader title="Add Task" className={classes.todoListTitle} disableTypography />
-            <form>
+            <form className={styles.form}>
                 <div className={styles.todoAddField}>
                     <TextField
                         className={classes.todoInputTextField}

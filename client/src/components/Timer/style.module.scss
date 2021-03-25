@@ -1,13 +1,12 @@
 .timer {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
-    width: 300px;
-    height: auto;
+    width: 340px;
+    height: fit-content;
     background-color: #ffffff;
     border-radius: 25px;
-    box-shadow: 2px 4px 31px 13px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.1);
 }
 
 .buttonContainer {

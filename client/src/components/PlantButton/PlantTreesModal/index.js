@@ -6,47 +6,46 @@ import stateUtils from "../stateUtils";
 
 import styles from "./style.module.scss";
 
-function PlantTreesModal() {
+import createPersistedState from "use-persisted-state";
+const usePlantProgressState = createPersistedState("plantProgress");
+
+function PlantTreesModal({ waterCoins, onSpendPoint }) {
+    const [plantProgress, setPlantProgress] = usePlantProgressState(0);
+
     const [config, setConfig] = useState({
         plantSize: 0, //This var shows different trees pictures
-        points: 0, //This var control the progressbar
-        waterCoins: 20, // when the user complete one task they get some waterCoins, which can be used to water trees
         feedback: stateUtils.feedback.start,
     });
     const POINTS = {
-        SEEDLING: 10, //small trees
-        SMALL: 20, //medium trees
-        FULL_GROWN: 50, // big trees
+        SEEDLING: 2, //small trees
+        SMALL: 5, //medium trees
+        FULL_GROWN: 10, // big trees
     };
 
     const handlePlantGrowth = () => {
-        var coins = config.waterCoins;
-        if (coins > 0) {
-            var newPoints = config.points++;
-            coins = coins - 1;
-            setConfig({ ...config, points: newPoints });
-            setConfig({ ...config, waterCoins: coins });
-            if (newPoints >= POINTS.FULL_GROWN) {
+        if (waterCoins > 0) {
+            const newProgress = plantProgress + 1;
+            if (newProgress >= POINTS.FULL_GROWN) {
                 setConfig({
                     ...config,
                     plantSize: 3,
-                    waterCoins: coins,
                     feedback: stateUtils.feedback.win,
                 }); //Change to the big trees pictures
-            } else if (newPoints >= POINTS.SMALL) {
-                setConfig({ ...config, plantSize: 2, waterCoins: coins }); //Change to the medium trees pictures
-            } else if (newPoints >= POINTS.SEEDLING) {
-                setConfig({ ...config, plantSize: 1, waterCoins: coins }); //Change to the small trees pictures
+            } else if (newProgress >= POINTS.SMALL) {
+                setConfig({ ...config, plantSize: 2 }); //Change to the medium trees pictures
+            } else if (newProgress >= POINTS.SEEDLING) {
+                setConfig({ ...config, plantSize: 1 }); //Change to the small trees pictures
             }
+            onSpendPoint();
+            setPlantProgress(newProgress);
         } else {
-            coins = 0;
             setConfig({ ...config, buttonState: false, feedback: stateUtils.feedback.noCoin });
         }
     };
     //show the progressbar
     const getProgress = () => {
-        const progress = Math.round((config.points / POINTS.FULL_GROWN) * 100);
-        return progress < 100 ? progress : 100;
+        const progressPercentage = Math.round((plantProgress / POINTS.FULL_GROWN) * 100);
+        return progressPercentage < 100 ? progressPercentage : 100;
     };
 
     return (
@@ -54,7 +53,7 @@ function PlantTreesModal() {
             <div className={styles.appHeader}>Grow your plant</div>
 
             <div>
-                {" "}
+                {`Tasks Completed: ${waterCoins}`}
                 {/* plant display */}
                 <Plant plantImage={stateUtils.plantImageUrls[config.plantSize]}></Plant>
                 {/* control buttons */}

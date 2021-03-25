@@ -1,12 +1,12 @@
-var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
-var { usersRouter, login, signup } = require("./routes/users");
 var todoRouter = require("./routes/todo");
+var loginRouter = require("./routes/login");
+var signupRouter = require("./routes/signup");
 var cors = require('cors');
 
 var app = express();
@@ -24,9 +24,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Redirect to HTTP API endpoint routers
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/todo", todoRouter);
+app.use("/login", loginRouter);
+app.use("/signup", signupRouter);
+
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -38,12 +41,5 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render("error");
 });
-
-//endpoint for login
-
-app.post("/login", login);
-
-//endpoint for signup
-app.post("/signup", signup);
 
 module.exports = app;

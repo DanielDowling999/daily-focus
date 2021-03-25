@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly 1`] = `
+<div
+  className="container"
+>
+  <WithStyles(ForwardRef(Paper))
+    className="makeStyles-paper-2"
+  >
+    <div
+      className="logInContainer"
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": "24px",
+          }
+        }
+      >
+        <ForwardRef(SvgFocusLogoWAccent)
+          fill="#454545"
+          width={380}
+        />
+      </div>
+      <form
+        onSubmit={[Function]}
+      >
+        <WithStyles(ForwardRef(TextField))
+          classes={
+            Object {
+              "root": "makeStyles-root-1",
+            }
+          }
+          label="Email address"
+          onInput={[Function]}
+          style={
+            Object {
+              "margin": "10px 0px",
+              "width": "100%",
+            }
+          }
+          value=""
+          variant="outlined"
+        />
+        <WithStyles(ForwardRef(TextField))
+          classes={
+            Object {
+              "root": "makeStyles-root-1",
+            }
+          }
+          label="Password"
+          onInput={[Function]}
+          style={
+            Object {
+              "margin": "10px 0px",
+              "width": "100%",
+            }
+          }
+          type="password"
+          value=""
+          variant="outlined"
+        />
+        <WithStyles(ForwardRef(Button))
+          className="makeStyles-button-3"
+          color="primary"
+          type="submit"
+          variant="contained"
+        >
+          Sign In
+        </WithStyles(ForwardRef(Button))>
+      </form>
+      <div
+        style={
+          Object {
+            "padding": "32px",
+          }
+        }
+      >
+        <Link
+          to="/"
+        >
+          Don't have an account? Sign up
+        </Link>
+      </div>
+    </div>
+  </WithStyles(ForwardRef(Paper))>
+  <WithStyles(ForwardRef(Snackbar))
+    action={
+      <React.Fragment>
+        <WithStyles(ForwardRef(Button))
+          color="inherit"
+          onClick={[Function]}
+          size="small"
+        >
+          CLOSE
+        </WithStyles(ForwardRef(Button))>
+      </React.Fragment>
+    }
+    anchorOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "bottom",
+      }
+    }
+    autoHideDuration={5000}
+    message="Username and/or password is incorrect"
+    onClose={[Function]}
+    open={false}
+  />
+</div>
+`;

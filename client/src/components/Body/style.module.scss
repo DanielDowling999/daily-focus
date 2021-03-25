@@ -1,0 +1,41 @@
+.container {
+    align-items: center;
+    flex-grow: 1;
+    margin: 0 auto;
+    max-width: 1164px;
+    min-width: 440px;
+    padding-top: 24px;
+
+    .grid {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .widget {
+            display: flex;
+            margin: 24px;
+            width: 340px;
+        }
+    }
+}
+
+.noWidgetContainer {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    .message {
+        font-size: 1.5rem;
+        color: #7d7d7d;
+    }
+
+    .addWidget {
+        margin-top: 15px;
+        text-align: center;
+    }
+}

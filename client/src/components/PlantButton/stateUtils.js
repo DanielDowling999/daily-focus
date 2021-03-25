@@ -1,16 +1,16 @@
-module.exports = {
+import tree0 from "../../images/tree0.png";
+import tree1 from "../../images/tree1.png";
+import tree2 from "../../images/tree2.png";
+import tree3 from "../../images/tree3.png";
+import wateringCan from "../../images/wateringCan.png";
+
+const stateUtils = {
     controls: {
         water: "water",
     },
-    plantImageUrls: [
-        "https://user-images.githubusercontent.com/73207848/111860287-74fbbd00-89ab-11eb-808b-11a7216f1bb5.png",
-        "https://user-images.githubusercontent.com/73207848/111860306-9492e580-89ab-11eb-922a-efa897c1da55.png",
-        "https://user-images.githubusercontent.com/73207848/111860313-99f03000-89ab-11eb-9f60-16eab3880eba.png",
-        "https://user-images.githubusercontent.com/73207848/111860320-a1173e00-89ab-11eb-8843-de4edfa0a383.png",
-    ],
+    plantImageUrls: [tree0, tree1, tree2, tree3],
     buttonImageUrls: {
-        water:
-            "https://user-images.githubusercontent.com/73207848/111860325-a7a5b580-89ab-11eb-936d-bbc974cf89cf.png",
+        water: wateringCan,
     },
     feedback: {
         start:
@@ -19,3 +19,5 @@ module.exports = {
         noCoin: "Sorry, you need to complete more tasks to water the tree.",
     },
 };
+
+export default stateUtils;

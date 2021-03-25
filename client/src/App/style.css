@@ -1,0 +1,11 @@
+body {
+    background-color: #f0f2f5;
+}
+
+/*
+ * This disgusting little beauty ensures the ReactModal drawn by @ggao007 's
+ * draws on top of the navbar.
+ */
+.ReactModal__Overlay--after-open {
+    z-index: 10;
+}

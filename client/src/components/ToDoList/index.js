@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import moment from "moment";
-import { Card, CardHeader, MenuItem, Select, makeStyles } from "@material-ui/core";
+import { CardHeader, MenuItem, Select, makeStyles } from "@material-ui/core";
+import styles from "./style.module.scss";
+
 import AddToDo from "./AddToDo";
 import UpcomingToDo from "./UpcomingToDo";
 import TodaysToDo from "./TodaysToDo";
+
 import useTodosState from "./useTodosState";
 
 const getUpcomingToDoItems = (currentToDoList, today) => {
@@ -18,17 +21,25 @@ const getUpcomingToDoItems = (currentToDoList, today) => {
 
 const useStyles = makeStyles({
     container: {
+        borderRadius: "25px",
         margin: "10px",
-        width: "25%",
+        width: "100%",
     },
     listContainer: {
         display: "flex",
         flexDirection: "column",
     },
     todoListTitle: {
-        textAlign: "center",
-        backgroundColor: "#30A0F5",
-        marginBottom: "1.5vh",
+        "borderRadius": "25px 25px 0 0",
+        "height": "16px",
+        "textAlign": "center",
+        "backgroundColor": "#30A0F5",
+        "marginBottom": "1.5vh",
+
+        "& .MuiInputBase-root": {
+            fontSize: "24px",
+            fontFamily: "'Ropa Sans', sans-serif",
+        },
     },
     todoListTitleSelect: {
         color: "white",
@@ -41,19 +52,24 @@ function ToDoList() {
     const [isAddingItem, setIsAddingItem] = useState(false);
     const [selectedTimeline, setSelectedTimeline] = useState("today");
 
-    const { todoList, addTodoItem, deleteTodoItem, editTodoItem, toggleCheck } = useTodosState(
-        { [todaysDate]: [] },
-        setIsAddingItem
-    );
+    const {
+        todoList,
+        addTodoItem,
+        deleteTodoItem,
+        editTodoItem,
+        toggleCheck,
+        taskPoints,
+        spendPoint,
+    } = useTodosState({ [todaysDate]: [] }, setIsAddingItem);
 
     const classes = useStyles();
 
     return (
-        <Card className={classes.container}>
+        <div className={styles.container}>
             {isAddingItem ? (
                 <AddToDo cancelClicked={() => setIsAddingItem(false)} addClicked={addTodoItem} />
             ) : (
-                <div>
+                <div className={styles.list}>
                     <CardHeader
                         title={
                             <Select
@@ -78,6 +94,8 @@ function ToDoList() {
                             toggleCheck={toggleCheck}
                             deleteItem={deleteTodoItem}
                             editItem={editTodoItem}
+                            taskPoints={taskPoints}
+                            onSpendPoint={spendPoint}
                         />
                     ) : (
                         <TodaysToDo
@@ -87,11 +105,13 @@ function ToDoList() {
                             toggleCheck={toggleCheck}
                             deleteItem={deleteTodoItem}
                             editItem={editTodoItem}
+                            taskPoints={taskPoints}
+                            onSpendPoint={spendPoint}
                         />
                     )}
                 </div>
             )}
-        </Card>
+        </div>
     );
 }
 

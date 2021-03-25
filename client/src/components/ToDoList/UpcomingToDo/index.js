@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { CardActions, Fab, List, ListSubheader, makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ToDoItem from "../ToDoItem";
+import PlantButton from "../../PlantButton";
 import moment from "moment";
 
 const useStyles = makeStyles({
@@ -14,7 +15,15 @@ const useStyles = makeStyles({
     },
 });
 
-function UpcomingToDo({ upcomingToDoList, switchToAdd, toggleCheck, deleteItem, editItem }) {
+function UpcomingToDo({
+    upcomingToDoList,
+    switchToAdd,
+    toggleCheck,
+    deleteItem,
+    editItem,
+    taskPoints,
+    onSpendPoint,
+}) {
     const classes = useStyles();
 
     return (
@@ -45,6 +54,7 @@ function UpcomingToDo({ upcomingToDoList, switchToAdd, toggleCheck, deleteItem, 
                 </List>
             ))}
             <CardActions className={classes.cardActions}>
+                <PlantButton taskPoints={taskPoints} onSpendPoint={onSpendPoint} />
                 <Fab className={classes.fab} color="primary" size="medium" onClick={switchToAdd}>
                     <AddIcon />
                 </Fab>

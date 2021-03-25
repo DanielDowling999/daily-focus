@@ -1,22 +1,43 @@
 import React from "react";
 import ReactModal from "react-modal";
 import PlantTreesModal from "./PlantTreesModal";
+import { Fab, makeStyles } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import EcoIcon from "@material-ui/icons/Eco";
 
 import styles from "./style.module.scss";
 
-function PlantButton() {
+const useStyles = makeStyles({
+    fab: {
+        backgroundColor: "#30A0F5",
+    },
+});
+
+function PlantButton({ taskPoints, onSpendPoint }) {
+    const classes = useStyles();
+
     const [showModal, setShowModal] = React.useState(false);
 
     return (
         <div className={styles.app}>
-            <button onClick={() => setShowModal(true)} className={styles.plantButton}>
-                Plant
-            </button>
+            <Fab
+                onClick={() => setShowModal(true)}
+                color="primary"
+                size="medium"
+                className={classes.fab}
+            >
+                <EcoIcon />
+            </Fab>
             <ReactModal isOpen={showModal} contentLabel="model" ariaHideApp={false}>
-                <PlantTreesModal />
-                <button onClick={() => setShowModal(false)} className={styles.plantButton}>
-                    Close
-                </button>
+                <PlantTreesModal waterCoins={taskPoints} onSpendPoint={onSpendPoint} />
+                <Fab
+                    onClick={() => setShowModal(false)}
+                    color="primary"
+                    size="medium"
+                    className={classes.fab}
+                >
+                    <CloseIcon />
+                </Fab>
             </ReactModal>
         </div>
     );

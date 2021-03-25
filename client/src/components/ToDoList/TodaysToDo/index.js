@@ -4,6 +4,8 @@ import { CardActions, Fab, List, makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ToDoItem from "../ToDoItem";
 
+import PlantButton from "../../PlantButton";
+
 const useStyles = makeStyles({
     fab: {
         backgroundColor: "#30A0F5",
@@ -13,7 +15,16 @@ const useStyles = makeStyles({
     },
 });
 
-function TodaysToDo({ todaysDate, todoList, switchToAdd, toggleCheck, deleteItem, editItem }) {
+function TodaysToDo({
+    todaysDate,
+    todoList,
+    switchToAdd,
+    toggleCheck,
+    deleteItem,
+    editItem,
+    taskPoints,
+    onSpendPoint,
+}) {
     const classes = useStyles();
 
     return (
@@ -33,6 +44,7 @@ function TodaysToDo({ todaysDate, todoList, switchToAdd, toggleCheck, deleteItem
                 ))}
             </List>
             <CardActions className={classes.cardActions}>
+                <PlantButton taskPoints={taskPoints} onSpendPoint={onSpendPoint} />
                 <Fab
                     className={classes.fab}
                     color="primary"
