@@ -84,48 +84,93 @@ function Weather() {
         // problem with putting number into api string instead of string
         if ("geolocation" in navigator) {
             console.log("Available");
-            navigator.geolocation.getCurrentPosition(function (position) {
-                lat = position.coords.latitude.toFixed(2);
-                lon = position.coords.longitude.toFixed(2);
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    lat = position.coords.latitude.toFixed(2);
+                    lon = position.coords.longitude.toFixed(2);
 
-                // get the current weather data and update state
-                fetch(
-                    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                )
-                    .then((res) => res.json())
-                    .then((response) => {
-                        setMain(response.weather[0].main);
-                        setCelsius(toCelsius(response.main.temp));
-                        setMaxTemp(toCelsius(response.main.temp_max));
-                        setMinTemp(toCelsius(response.main.temp_min));
-                        setDescription(response.weather[0].main);
-                        getWeatherIcon(response.weather[0].id);
-                    });
+                    // get the current weather data and update state
+                    fetch(
+                        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+                    )
+                        .then((res) => res.json())
+                        .then((response) => {
+                            setMain(response.weather[0].main);
+                            setCelsius(toCelsius(response.main.temp));
+                            setMaxTemp(toCelsius(response.main.temp_max));
+                            setMinTemp(toCelsius(response.main.temp_min));
+                            setDescription(response.weather[0].main);
+                            getWeatherIcon(response.weather[0].id);
+                        });
 
-                // get the 5-day weather forecast data (each day at 12:00 pm) and update state
-                fetch(
-                    `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                )
-                    .then((res) => res.json())
-                    .then((data) => {
-                        const dailyData = data.list.filter((reading) =>
-                            reading.dt_txt.includes("12:00:00")
-                        );
-                        //console.log(dailyData);
-                        setDailyData(dailyData);
-                    });
+                    // get the 5-day weather forecast data (each day at 12:00 pm) and update state
+                    fetch(
+                        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+                    )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            const dailyData = data.list.filter((reading) =>
+                                reading.dt_txt.includes("12:00:00")
+                            );
+                            //console.log(dailyData);
+                            setDailyData(dailyData);
+                        });
 
-                //get the 6 hours weather forecast data and update state
-                fetch(
-                    `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
-                )
-                    .then((res) => res.json())
-                    .then((data) => {
-                        let hourArray = data.hourly.slice(0, 6);
+                    //get the 6 hours weather forecast data and update state
+                    fetch(
+                        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
+                    )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            let hourArray = data.hourly.slice(0, 6);
 
-                        SetHourlyData(hourArray);
-                    });
-            });
+                            SetHourlyData(hourArray);
+                        });
+                },
+                function onError() {
+                    // default to auckland coords
+                    lat = -36.85;
+                    lon = 174.76;
+
+                    // get the current weather data and update state
+                    fetch(
+                        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+                    )
+                        .then((res) => res.json())
+                        .then((response) => {
+                            setMain(response.weather[0].main);
+                            setCelsius(toCelsius(response.main.temp));
+                            setMaxTemp(toCelsius(response.main.temp_max));
+                            setMinTemp(toCelsius(response.main.temp_min));
+                            setDescription(response.weather[0].main);
+                            getWeatherIcon(response.weather[0].id);
+                        });
+
+                    // get the 5-day weather forecast data (each day at 12:00 pm) and update state
+                    fetch(
+                        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+                    )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            const dailyData = data.list.filter((reading) =>
+                                reading.dt_txt.includes("12:00:00")
+                            );
+                            //console.log(dailyData);
+                            setDailyData(dailyData);
+                        });
+
+                    //get the 6 hours weather forecast data and update state
+                    fetch(
+                        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
+                    )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            let hourArray = data.hourly.slice(0, 6);
+
+                            SetHourlyData(hourArray);
+                        });
+                }
+            );
         } else {
             console.log("Not Available");
         }
