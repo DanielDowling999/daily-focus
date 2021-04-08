@@ -79,6 +79,15 @@ function Weather() {
     };
 
     useEffect(() => {
+        if ("geolocation" in navigator) {
+            console.log("Available");
+            navigator.geolocation.getCurrentPosition(function (position) {
+                console.log("Latitude: ", position.coords.latitude);
+                console.log("Longtitude: ", position.coords.longitude);
+            });
+        } else {
+            console.log("Not Available");
+        }
         // get the current weather data and update state
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=Auckland&appid=${API_KEY}`)
             .then((res) => res.json())
