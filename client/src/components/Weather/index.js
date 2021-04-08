@@ -30,6 +30,8 @@ function Weather() {
     const [description, setDescription] = useState("");
     const [dailyData, setDailyData] = useState([]);
     const [hourlyData, SetHourlyData] = useState([]);
+    const [name, setName] = useState(null);
+    const [country, setCountry] = useState(null);
 
     /* the get_WeatherIcon functions set the weather icon based on the weather condition codes
        see https://openweathermap.org/weather-conditions for more details
@@ -86,8 +88,8 @@ function Weather() {
             console.log("Available");
             navigator.geolocation.getCurrentPosition(
                 function (position) {
-                    lat = position.coords.latitude.toFixed(2);
-                    lon = position.coords.longitude.toFixed(2);
+                    lat = position.coords.latitude;
+                    lon = position.coords.longitude;
 
                     // get the current weather data and update state
                     fetch(
@@ -101,6 +103,8 @@ function Weather() {
                             setMinTemp(toCelsius(response.main.temp_min));
                             setDescription(response.weather[0].main);
                             getWeatherIcon(response.weather[0].id);
+                            setName(response.name);
+                            setCountry(response.sys.country);
                         });
 
                     // get the 5-day weather forecast data (each day at 12:00 pm) and update state
@@ -186,7 +190,9 @@ function Weather() {
                     <div className={styles.currentWeatherBox}>
                         <div className={styles.iconContainer}>{icon}</div>
                         <div className={styles.description}>
-                            <div className={styles.weatherNZ}>{description}|Auckland, NZ</div>
+                            <div className={styles.weatherNZ}>
+                                {description}|{name},{country}
+                            </div>
                             <div className={styles.temp}>{celsius}°C</div>
                             <div className={styles.tempBounds}>
                                 L:{minTemp}°C|H:{maxTemp}°C
