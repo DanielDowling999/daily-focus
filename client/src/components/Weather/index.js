@@ -80,6 +80,75 @@ function Weather() {
         return hourArray;
     };
 
+    const getWeatherData = (lat, lon) => {
+        // get all the weather data
+        fetch(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=alerts&appid=${API_KEY}`
+        )
+            .then((res) => res.json())
+            .then((response) => {
+                console.log(response);
+                setMain(response.current.weather[0].main);
+                console.log(response.current.weather[0].main);
+                setCelsius(toCelsius(response.current.temp));
+                setMaxTemp(toCelsius(response.daily[0].temp.max));
+                setMinTemp(toCelsius(response.daily[0].temp.min));
+                setDescription(response.current.weather[0].description);
+                getWeatherIcon(response.current.weather[0].id);
+
+                // const dailyData = response.daily.filter((reading) =>
+                //     reading.dt_txt.includes("12:00:00")
+                // );
+                // setDailyData(dailyData);
+
+                let hourArray = response.hourly.slice(0, 6);
+
+                SetHourlyData(hourArray);
+            });
+
+        // get the current weather data and update state
+        // fetch(
+        //     `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+        // )
+        //     .then((res) => res.json())
+        //     .then((response) => {
+        //         setMain(response.weather[0].main);
+        //         setCelsius(toCelsius(response.main.temp));
+        //         setMaxTemp(toCelsius(response.main.temp_max));
+        //         setMinTemp(toCelsius(response.main.temp_min));
+        //         setDescription(response.weather[0].main);
+        //         getWeatherIcon(response.weather[0].id);
+        //         setName(response.name);
+        //         setCountry(response.sys.country);
+        //     });
+
+        // get the 5-day weather forecast data (each day at 12:00 pm) and update state
+        fetch(
+            `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                const dailyData = data.list.filter((reading) =>
+                    reading.dt_txt.includes("12:00:00")
+                );
+                //console.log(dailyData);
+                setDailyData(dailyData);
+                setName(data.city.name);
+                setCountry(data.city.country);
+            });
+
+        // //get the 6 hours weather forecast data and update state
+        // fetch(
+        //     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
+        // )
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         let hourArray = data.hourly.slice(0, 6);
+
+        //         SetHourlyData(hourArray);
+        //     });
+    };
+
     useEffect(() => {
         let lat = 0;
         let lon = 0;
@@ -91,88 +160,15 @@ function Weather() {
                     lat = position.coords.latitude;
                     lon = position.coords.longitude;
 
-                    // get the current weather data and update state
-                    fetch(
-                        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                    )
-                        .then((res) => res.json())
-                        .then((response) => {
-                            setMain(response.weather[0].main);
-                            setCelsius(toCelsius(response.main.temp));
-                            setMaxTemp(toCelsius(response.main.temp_max));
-                            setMinTemp(toCelsius(response.main.temp_min));
-                            setDescription(response.weather[0].main);
-                            getWeatherIcon(response.weather[0].id);
-                            setName(response.name);
-                            setCountry(response.sys.country);
-                        });
-
-                    // get the 5-day weather forecast data (each day at 12:00 pm) and update state
-                    fetch(
-                        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                    )
-                        .then((res) => res.json())
-                        .then((data) => {
-                            const dailyData = data.list.filter((reading) =>
-                                reading.dt_txt.includes("12:00:00")
-                            );
-                            //console.log(dailyData);
-                            setDailyData(dailyData);
-                        });
-
-                    //get the 6 hours weather forecast data and update state
-                    fetch(
-                        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
-                    )
-                        .then((res) => res.json())
-                        .then((data) => {
-                            let hourArray = data.hourly.slice(0, 6);
-
-                            SetHourlyData(hourArray);
-                        });
+                    getWeatherData(lat, lon);
                 },
                 function onError() {
                     // default to auckland coords
+                    // TODO: remove rid of magic numbers
                     lat = -36.85;
                     lon = 174.76;
 
-                    // get the current weather data and update state
-                    fetch(
-                        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                    )
-                        .then((res) => res.json())
-                        .then((response) => {
-                            setMain(response.weather[0].main);
-                            setCelsius(toCelsius(response.main.temp));
-                            setMaxTemp(toCelsius(response.main.temp_max));
-                            setMinTemp(toCelsius(response.main.temp_min));
-                            setDescription(response.weather[0].main);
-                            getWeatherIcon(response.weather[0].id);
-                        });
-
-                    // get the 5-day weather forecast data (each day at 12:00 pm) and update state
-                    fetch(
-                        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                    )
-                        .then((res) => res.json())
-                        .then((data) => {
-                            const dailyData = data.list.filter((reading) =>
-                                reading.dt_txt.includes("12:00:00")
-                            );
-                            //console.log(dailyData);
-                            setDailyData(dailyData);
-                        });
-
-                    //get the 6 hours weather forecast data and update state
-                    fetch(
-                        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
-                    )
-                        .then((res) => res.json())
-                        .then((data) => {
-                            let hourArray = data.hourly.slice(0, 6);
-
-                            SetHourlyData(hourArray);
-                        });
+                    getWeatherData(lat, lon);
                 }
             );
         } else {
@@ -191,7 +187,7 @@ function Weather() {
                         <div className={styles.iconContainer}>{icon}</div>
                         <div className={styles.description}>
                             <div className={styles.weatherNZ}>
-                                {description}|{name},{country}
+                                {main}|{name},{country}
                             </div>
                             <div className={styles.temp}>{celsius}°C</div>
                             <div className={styles.tempBounds}>
