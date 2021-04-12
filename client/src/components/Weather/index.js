@@ -12,6 +12,8 @@ import styles from "./style.module.scss";
 
 const API_KEY = "2d6026fb2c6a6ef3bbbc1f81c56baf04";
 
+const aucklandCoords = { lat: -36.85, lon: 174.76 };
+
 const weatherIcon = {
     Thunderstorm: <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
     Rain: <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
@@ -32,6 +34,7 @@ function Weather() {
     const [hourlyData, SetHourlyData] = useState([]);
     const [name, setName] = useState(null);
     const [country, setCountry] = useState(null);
+    const [iconURL, setIconURL] = useState(null);
 
     /* the get_WeatherIcon functions set the weather icon based on the weather condition codes
        see https://openweathermap.org/weather-conditions for more details
@@ -95,6 +98,9 @@ function Weather() {
                 setMinTemp(toCelsius(response.daily[0].temp.min));
                 setDescription(response.current.weather[0].description);
                 getWeatherIcon(response.current.weather[0].id);
+                setIconURL(
+                    `http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`
+                );
 
                 // const dailyData = response.daily.filter((reading) =>
                 //     reading.dt_txt.includes("12:00:00")
@@ -131,7 +137,7 @@ function Weather() {
                 const dailyData = data.list.filter((reading) =>
                     reading.dt_txt.includes("12:00:00")
                 );
-                //console.log(dailyData);
+                console.log(dailyData);
                 setDailyData(dailyData);
                 setName(data.city.name);
                 setCountry(data.city.country);
@@ -163,12 +169,7 @@ function Weather() {
                     getWeatherData(lat, lon);
                 },
                 function onError() {
-                    // default to auckland coords
-                    // TODO: remove rid of magic numbers
-                    lat = -36.85;
-                    lon = 174.76;
-
-                    getWeatherData(lat, lon);
+                    getWeatherData(aucklandCoords.lat, aucklandCoords.lon);
                 }
             );
         } else {
