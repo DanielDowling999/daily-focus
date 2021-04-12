@@ -10,7 +10,7 @@ const aucklandCoords = { lat: -36.85, lon: 174.76 };
 
 function Weather() {
     const [rangeId, setRangeId] = useState(undefined);
-    const [icon, setIcon] = useState("00d");
+    const [icon, setIcon] = useState("04d");
     const [main, setMain] = useState(undefined);
     const [celsius, setCelsius] = useState(undefined);
     const [maxTemp, setMaxTemp] = useState(null);
@@ -105,7 +105,7 @@ function Weather() {
                 <div className={styles.content}>
                     <div className={styles.currentWeatherBox}>
                         <div className={styles.iconContainer}>
-                            <Icon rangeId={rangeId} icon={icon} />
+                            <Icon icon={icon} />
                         </div>
                         <div className={styles.description}>
                             <div className={styles.weatherNZ}>

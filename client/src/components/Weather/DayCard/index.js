@@ -18,7 +18,7 @@ function DayCard(props) {
         <div className={styles.card}>
             <div className={styles.day}>{result}</div>
             <div className={styles.iconContainer}>
-                <Icon rangeId={props.day.weather[0].id} icon={props.day.weather[0].icon} />
+                <Icon icon={props.day.weather[0].icon} />
             </div>
 
             <div className={styles.lowTemp}>{toCelsius(props.day.temp.min)}°C</div>

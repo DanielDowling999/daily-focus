@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloud } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCloud,
+    faCloudMoon,
+    faCloudMoonRain,
+    faCloudSun,
+    faCloudSunRain,
+} from "@fortawesome/free-solid-svg-icons";
 import { faCloudRain } from "@fortawesome/free-solid-svg-icons";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import { faSnowflake } from "@fortawesome/free-solid-svg-icons";
@@ -9,59 +15,46 @@ import { faSmog } from "@fortawesome/free-solid-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import styles from "./style.module.scss";
 
+// The icon labels retrieved from the API are matched up with icons
+// 'n' means night and 'd' means day
 const weatherIcon = {
-    Thunderstorm: <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
-    Rain: <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
-    Snow: <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
-    Atmosphere: <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
-    ClearDay: <FontAwesomeIcon icon={faSun} className={styles.faColor} />,
-    ClearNight: <FontAwesomeIcon icon={faMoon} className={styles.faColor} />,
-    Clouds: <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
+    // Thunderstorm
+    "11d": <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
+    "11n": <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
+
+    // Rain
+    "10d": <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
+    "10n": <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
+
+    // Light Rain/Showers
+    "09d": <FontAwesomeIcon icon={faCloudSunRain} className={styles.faColor} />,
+    "09n": <FontAwesomeIcon icon={faCloudMoonRain} className={styles.faColor} />,
+
+    // Snow
+    "13d": <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
+    "13n": <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
+
+    // Atmosphere
+    "50d": <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
+    "50n": <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
+
+    // Clear Sky
+    "01d": <FontAwesomeIcon icon={faSun} className={styles.faColor} />,
+    "01n": <FontAwesomeIcon icon={faMoon} className={styles.faColor} />,
+
+    // Cloudy
+    "04d": <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
+    "04n": <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
+
+    // Partly Cloudy
+    "02d": <FontAwesomeIcon icon={faCloudSun} className={styles.faColor} />,
+    "02n": <FontAwesomeIcon icon={faCloudMoon} className={styles.faColor} />,
+    "03d": <FontAwesomeIcon icon={faCloudSun} className={styles.faColor} />,
+    "03n": <FontAwesomeIcon icon={faCloudMoon} className={styles.faColor} />,
 };
 
-/* the getWeatherIcon functions set the weather icon based on the weather condition codes
-   see https://openweathermap.org/weather-conditions for more details
-   cloud drizzle icon needs pro plan, so the cloud rain icon is used instead
-*/
 function Icon(props) {
-    // the last character of the icon string is 'n' or 'd' where n means its night
-    const isNight = props.icon.charAt(2) == "n";
-
-    let icon;
-    switch (true) {
-        case props.rangeId >= 200 && props.rangeId < 232:
-            icon = weatherIcon.Thunderstorm;
-            break;
-        case props.rangeId >= 300 && props.rangeId <= 321:
-            icon = weatherIcon.Rain;
-            break;
-        case props.rangeId >= 500 && props.rangeId <= 521:
-            icon = weatherIcon.Rain;
-            break;
-        case props.rangeId >= 600 && props.rangeId <= 622:
-            icon = weatherIcon.Snow;
-            break;
-        case props.rangeId >= 701 && props.rangeId <= 781:
-            icon = weatherIcon.Atmosphere;
-            break;
-        case props.rangeId === 800:
-            console.log("hey");
-            if (isNight) {
-                icon = weatherIcon.ClearNight;
-            } else {
-                icon = weatherIcon.ClearDay;
-            }
-            break;
-        case props.rangeId >= 801 && props.rangeId <= 804:
-            icon = weatherIcon.Clouds;
-            break;
-        default:
-            console.log(props.rangeId);
-            icon = weatherIcon.Clouds;
-    }
-    const [iconImage, setIconImage] = useState(icon);
-
-    return <div>{iconImage}</div>;
+    return <div>{weatherIcon[props.icon]}</div>;
 }
 
 export default Icon;
