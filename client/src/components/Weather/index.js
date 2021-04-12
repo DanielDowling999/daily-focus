@@ -1,30 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DayCard from "./DayCard/index.js";
 import HourCard from "./HourCard/index.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloud } from "@fortawesome/free-solid-svg-icons";
-import { faCloudRain } from "@fortawesome/free-solid-svg-icons";
-import { faBolt } from "@fortawesome/free-solid-svg-icons";
-import { faSnowflake } from "@fortawesome/free-solid-svg-icons";
-import { faSun } from "@fortawesome/free-solid-svg-icons";
-import { faSmog } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon/index.js";
 import styles from "./style.module.scss";
 
 const API_KEY = "2d6026fb2c6a6ef3bbbc1f81c56baf04";
 
 const aucklandCoords = { lat: -36.85, lon: 174.76 };
 
-const weatherIcon = {
-    Thunderstorm: <FontAwesomeIcon icon={faBolt} className={styles.faColor} />,
-    Rain: <FontAwesomeIcon icon={faCloudRain} className={styles.faColor} />,
-    Snow: <FontAwesomeIcon icon={faSnowflake} className={styles.faColor} />,
-    Atmosphere: <FontAwesomeIcon icon={faSmog} className={styles.faColor} />,
-    Clear: <FontAwesomeIcon icon={faSun} className={styles.faColor} />,
-    Clouds: <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
-};
-
 function Weather() {
-    const [icon, setIcon] = useState(undefined);
+    const [rangeId, setRangeId] = useState(undefined);
     const [main, setMain] = useState(undefined);
     const [celsius, setCelsius] = useState(undefined);
     const [maxTemp, setMaxTemp] = useState(null);
@@ -34,39 +19,12 @@ function Weather() {
     const [hourlyData, SetHourlyData] = useState([]);
     const [name, setName] = useState(null);
     const [country, setCountry] = useState(null);
-    const [iconURL, setIconURL] = useState(null);
+    const [isNight, setIsNight] = useState(false);
 
     /* the getWeatherIcon functions set the weather icon based on the weather condition codes
        see https://openweathermap.org/weather-conditions for more details
        cloud drizzle icon needs pro plan, so the cloud rain icon is used instead
     */
-    const getWeatherIcon = (rangeId) => {
-        switch (true) {
-            case rangeId >= 200 && rangeId < 232:
-                setIcon(weatherIcon.Thunderstorm);
-                break;
-            case rangeId >= 300 && rangeId <= 321:
-                setIcon(weatherIcon.Rain);
-                break;
-            case rangeId >= 500 && rangeId <= 521:
-                setIcon(weatherIcon.Rain);
-                break;
-            case rangeId >= 600 && rangeId <= 622:
-                setIcon(weatherIcon.Snow);
-                break;
-            case rangeId >= 701 && rangeId <= 781:
-                setIcon(weatherIcon.Atmosphere);
-                break;
-            case rangeId === 800:
-                setIcon(weatherIcon.Clear);
-                break;
-            case rangeId >= 801 && rangeId <= 804:
-                setIcon(weatherIcon.Clouds);
-                break;
-            default:
-                setIcon(weatherIcon.Clouds);
-        }
-    };
 
     const toCelsius = (temp) => {
         const kelvinToCelsiusDiff = 273.15;
@@ -84,7 +42,7 @@ function Weather() {
     };
 
     const getWeatherData = (lat, lon) => {
-        // get all the weather data
+        // get all the weather data (current, hourly for current day, and daily)
         fetch(
             `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=alerts&appid=${API_KEY}`
         )
@@ -97,57 +55,29 @@ function Weather() {
                 setMaxTemp(toCelsius(response.daily[0].temp.max));
                 setMinTemp(toCelsius(response.daily[0].temp.min));
                 setDescription(response.current.weather[0].description);
-                getWeatherIcon(response.current.weather[0].id);
-                setIconURL(
-                    `http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`
-                );
-
-                const dailyData = response.daily.slice(1, 6);
-
-                setDailyData(dailyData);
+                //getWeatherIcon(response.current.weather[0].id);
+                setRangeId(response.current.weather[0].description);
+                setIsNight(response.current.weather[0].icon.charAt(2) == "n");
+                // setIconURL(
+                //     `http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`
+                // );
 
                 let hourArray = response.hourly.slice(0, 6);
-
                 SetHourlyData(hourArray);
+
+                const dailyData = response.daily.slice(1, 6);
+                setDailyData(dailyData);
             });
 
-        // get the current weather data and update state
-        // fetch(
-        //     `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-        // )
-        //     .then((res) => res.json())
-        //     .then((response) => {
-        //         setMain(response.weather[0].main);
-        //         setCelsius(toCelsius(response.main.temp));
-        //         setMaxTemp(toCelsius(response.main.temp_max));
-        //         setMinTemp(toCelsius(response.main.temp_min));
-        //         setDescription(response.weather[0].main);
-        //         getWeatherIcon(response.weather[0].id);
-        //         setName(response.name);
-        //         setCountry(response.sys.country);
-        //     });
-
-        // get the 5-day weather forecast data (each day at 12:00 pm) and update state
+        // get the city and country name for the requested coordinates
         fetch(
-            `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+            `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
         )
             .then((res) => res.json())
-            .then((data) => {
-                // setDailyData(dailyData);
-                setName(data.city.name);
-                setCountry(data.city.country);
+            .then((response) => {
+                setName(response.name);
+                setCountry(response.sys.country);
             });
-
-        // //get the 6 hours weather forecast data and update state
-        // fetch(
-        //     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${API_KEY}`
-        // )
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         let hourArray = data.hourly.slice(0, 6);
-
-        //         SetHourlyData(hourArray);
-        //     });
     };
 
     useEffect(() => {
@@ -180,14 +110,16 @@ function Weather() {
                 </div>
                 <div className={styles.content}>
                     <div className={styles.currentWeatherBox}>
-                        <div className={styles.iconContainer}>{icon}</div>
+                        <div className={styles.iconContainer}>
+                            <Icon rangeId={rangeId} />
+                        </div>
                         <div className={styles.description}>
                             <div className={styles.weatherNZ}>
-                                {main}|{name},{country}
+                                {main} | {name}, {country}
                             </div>
                             <div className={styles.temp}>{celsius}°C</div>
                             <div className={styles.tempBounds}>
-                                L:{minTemp}°C|H:{maxTemp}°C
+                                L:{minTemp}°C | H:{maxTemp}°C
                             </div>
                         </div>
                     </div>
