@@ -6,13 +6,13 @@ import {
     faCloudMoonRain,
     faCloudSun,
     faCloudSunRain,
+    faCloudRain,
+    faBolt,
+    faSnowflake,
+    faSun,
+    faSmog,
+    faMoon,
 } from "@fortawesome/free-solid-svg-icons";
-import { faCloudRain } from "@fortawesome/free-solid-svg-icons";
-import { faBolt } from "@fortawesome/free-solid-svg-icons";
-import { faSnowflake } from "@fortawesome/free-solid-svg-icons";
-import { faSun } from "@fortawesome/free-solid-svg-icons";
-import { faSmog } from "@fortawesome/free-solid-svg-icons";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import styles from "./style.module.scss";
 
 // The icon labels retrieved from the API are matched up with icons

@@ -9,7 +9,6 @@ const API_KEY = "2d6026fb2c6a6ef3bbbc1f81c56baf04";
 const aucklandCoords = { lat: -36.85, lon: 174.76 };
 
 function Weather() {
-    const [rangeId, setRangeId] = useState(undefined);
     const [icon, setIcon] = useState("04d");
     const [main, setMain] = useState(undefined);
     const [celsius, setCelsius] = useState(undefined);
@@ -23,8 +22,7 @@ function Weather() {
 
     const toCelsius = (temp) => {
         const kelvinToCelsiusDiff = 273.15;
-        let cell = Math.floor(temp - kelvinToCelsiusDiff);
-        return cell;
+        return Math.floor(temp - kelvinToCelsiusDiff);
     };
 
     const formatDayCards = (dailyData) => {
@@ -37,33 +35,31 @@ function Weather() {
     };
 
     const getWeatherData = (lat, lon) => {
-        // get all the weather data (current, hourly for current day, and daily)
+        // Get all the weather data (current, hourly for current day, and daily)
         fetch(
             `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=alerts&appid=${API_KEY}`
         )
             .then((res) => res.json())
             .then((response) => {
-                console.log(response);
+                // Current weather
                 setMain(response.current.weather[0].main);
-                console.log(response.current.weather[0].main);
                 setCelsius(toCelsius(response.current.temp));
                 setMaxTemp(toCelsius(response.daily[0].temp.max));
                 setMinTemp(toCelsius(response.daily[0].temp.min));
                 setDescription(response.current.weather[0].description);
-                setRangeId(response.current.weather[0].description);
                 setIcon(response.current.weather[0].icon);
-                // setIconURL(
-                //     `http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`
-                // );
+                console.log(response);
 
-                let hourArray = response.hourly.slice(0, 6);
+                // Hourly weather for next 6 hours
+                const hourArray = response.hourly.slice(0, 6);
                 SetHourlyData(hourArray);
 
+                // Daily weather for next 5 days
                 const dailyData = response.daily.slice(1, 6);
                 setDailyData(dailyData);
             });
 
-        // get the city and country name for the requested coordinates
+        // Get the city and country name for the requested coordinates
         fetch(
             `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
         )
@@ -75,24 +71,20 @@ function Weather() {
     };
 
     useEffect(() => {
-        let lat = 0;
-        let lon = 0;
-        // problem with putting number into api string instead of string
         if ("geolocation" in navigator) {
-            console.log("Available");
             navigator.geolocation.getCurrentPosition(
                 function (position) {
-                    lat = position.coords.latitude;
-                    lon = position.coords.longitude;
-
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
                     getWeatherData(lat, lon);
                 },
+                // Permission not given to access location, so default to Auckland coordinates
                 function onError() {
                     getWeatherData(aucklandCoords.lat, aucklandCoords.lon);
                 }
             );
         } else {
-            console.log("Not Available");
+            getWeatherData(aucklandCoords.lat, aucklandCoords.lon);
         }
     }, []);
 

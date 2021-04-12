@@ -6,8 +6,7 @@ var moment = require("moment");
 function HourCard(props) {
     const toCelsius = (temp) => {
         const kelvinToCelsiusDiff = 273.15;
-        let cell = Math.floor(temp - kelvinToCelsiusDiff);
-        return cell;
+        return Math.floor(temp - kelvinToCelsiusDiff);
     };
 
     let dt = props.hour.dt;

@@ -6,8 +6,7 @@ var moment = require("moment");
 function DayCard(props) {
     const toCelsius = (temp) => {
         const kelvinToCelsiusDiff = 273.15;
-        let cell = Math.floor(temp - kelvinToCelsiusDiff);
-        return cell;
+        return Math.floor(temp - kelvinToCelsiusDiff);
     };
 
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
