@@ -14,7 +14,7 @@ function Weather() {
     const [temp, setTemp] = useState(undefined);
     const [maxTemp, setMaxTemp] = useState(null);
     const [minTemp, setMinTemp] = useState(null);
-    const [description, setDescription] = useState("");
+    // const [description, setDescription] = useState("");
     const [dailyData, setDailyData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
     const [name, setName] = useState(null);
@@ -41,9 +41,8 @@ function Weather() {
                 setTemp(Math.floor(response.current.temp));
                 setMaxTemp(Math.floor(response.daily[0].temp.max));
                 setMinTemp(Math.floor(response.daily[0].temp.min));
-                setDescription(response.current.weather[0].description);
+                // setDescription(response.current.weather[0].description);
                 setIcon(response.current.weather[0].icon);
-                console.log(response);
 
                 // Hourly weather for next 6 hours
                 const hourlyData = response.hourly.slice(0, 6);
@@ -56,12 +55,12 @@ function Weather() {
 
         // Get the city and country name for the requested coordinates
         fetch(
-            `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+            `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`
         )
             .then((res) => res.json())
             .then((response) => {
-                setName(response.name);
-                setCountry(response.sys.country);
+                setName(response[0].name);
+                setCountry(response[0].country);
             });
     };
 
