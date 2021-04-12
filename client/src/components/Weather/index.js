@@ -10,6 +10,7 @@ const aucklandCoords = { lat: -36.85, lon: 174.76 };
 
 function Weather() {
     const [rangeId, setRangeId] = useState(undefined);
+    const [icon, setIcon] = useState("00d");
     const [main, setMain] = useState(undefined);
     const [celsius, setCelsius] = useState(undefined);
     const [maxTemp, setMaxTemp] = useState(null);
@@ -19,12 +20,6 @@ function Weather() {
     const [hourlyData, SetHourlyData] = useState([]);
     const [name, setName] = useState(null);
     const [country, setCountry] = useState(null);
-    const [isNight, setIsNight] = useState(false);
-
-    /* the getWeatherIcon functions set the weather icon based on the weather condition codes
-       see https://openweathermap.org/weather-conditions for more details
-       cloud drizzle icon needs pro plan, so the cloud rain icon is used instead
-    */
 
     const toCelsius = (temp) => {
         const kelvinToCelsiusDiff = 273.15;
@@ -55,9 +50,8 @@ function Weather() {
                 setMaxTemp(toCelsius(response.daily[0].temp.max));
                 setMinTemp(toCelsius(response.daily[0].temp.min));
                 setDescription(response.current.weather[0].description);
-                //getWeatherIcon(response.current.weather[0].id);
                 setRangeId(response.current.weather[0].description);
-                setIsNight(response.current.weather[0].icon.charAt(2) == "n");
+                setIcon(response.current.weather[0].icon);
                 // setIconURL(
                 //     `http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`
                 // );
@@ -111,7 +105,7 @@ function Weather() {
                 <div className={styles.content}>
                     <div className={styles.currentWeatherBox}>
                         <div className={styles.iconContainer}>
-                            <Icon rangeId={rangeId} />
+                            <Icon rangeId={rangeId} icon={icon} />
                         </div>
                         <div className={styles.description}>
                             <div className={styles.weatherNZ}>

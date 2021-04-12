@@ -19,38 +19,49 @@ const weatherIcon = {
     Clouds: <FontAwesomeIcon icon={faCloud} className={styles.faColor} />,
 };
 
-function Icon(rangeId) {
-    //const [iconImage, setIconImage] = useState(weatherIcon.Thunderstorm);
+/* the getWeatherIcon functions set the weather icon based on the weather condition codes
+   see https://openweathermap.org/weather-conditions for more details
+   cloud drizzle icon needs pro plan, so the cloud rain icon is used instead
+*/
+function Icon(props) {
+    // the last character of the icon string is 'n' or 'd' where n means its night
+    const isNight = props.icon.charAt(2) == "n";
 
     let icon;
     switch (true) {
-        case rangeId >= 200 && rangeId < 232:
+        case props.rangeId >= 200 && props.rangeId < 232:
             icon = weatherIcon.Thunderstorm;
             break;
-        case rangeId >= 300 && rangeId <= 321:
+        case props.rangeId >= 300 && props.rangeId <= 321:
             icon = weatherIcon.Rain;
             break;
-        case rangeId >= 500 && rangeId <= 521:
+        case props.rangeId >= 500 && props.rangeId <= 521:
             icon = weatherIcon.Rain;
             break;
-        case rangeId >= 600 && rangeId <= 622:
+        case props.rangeId >= 600 && props.rangeId <= 622:
             icon = weatherIcon.Snow;
             break;
-        case rangeId >= 701 && rangeId <= 781:
+        case props.rangeId >= 701 && props.rangeId <= 781:
             icon = weatherIcon.Atmosphere;
             break;
-        case rangeId === 800:
-            icon = weatherIcon.Clear;
+        case props.rangeId === 800:
+            console.log("hey");
+            if (isNight) {
+                icon = weatherIcon.ClearNight;
+            } else {
+                icon = weatherIcon.ClearDay;
+            }
             break;
-        case rangeId >= 801 && rangeId <= 804:
+        case props.rangeId >= 801 && props.rangeId <= 804:
             icon = weatherIcon.Clouds;
             break;
         default:
+            console.log(props.rangeId);
             icon = weatherIcon.Clouds;
     }
-    // setIconImage(icon);
+    const [iconImage, setIconImage] = useState(icon);
 
-    return <div>{icon}</div>;
+    return <div>{iconImage}</div>;
 }
 
 export default Icon;

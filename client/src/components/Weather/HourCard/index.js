@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import Icon from "../Icon/index";
 import styles from "./HourCard.module.scss";
 
@@ -22,15 +21,11 @@ function HourCard(props) {
     // Will display time in 10:30:23 format
     let formattedTime = hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
 
-    // useEffect(() => {
-    //     getWeatherIcon(props.hour.weather[0].id);
-    // });
-
     return (
         <div className={styles.hourCard}>
             <div className={styles.time}>{moment(formattedTime, "HH:mm:ss").format("hh:mma")}</div>
             <div className={styles.icon}>
-                <Icon rangeId={props.hour.weather[0].id} />
+                <Icon rangeId={props.hour.weather[0].id} icon={props.hour.weather[0].icon} />
             </div>
             <div className={styles.temp}>{toCelsius(props.hour.temp)}°C</div>
         </div>
