@@ -12,6 +12,7 @@ import {
     faSmog,
     faMoon,
 } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
 import styles from "./style.module.scss";
 
 // The icon labels retrieved from the API are matched up with icons
@@ -52,8 +53,12 @@ const weatherIcon = {
     "03n": <FontAwesomeIcon icon={faCloudMoon} className={styles.faColor} />,
 };
 
-function Icon(props) {
-    return <div>{weatherIcon[props.icon]}</div>;
+function Icon({ icon }) {
+    return <div>{weatherIcon[icon]}</div>;
 }
+
+Icon.propTypes = {
+    icon: PropTypes.string,
+};
 
 export default Icon;

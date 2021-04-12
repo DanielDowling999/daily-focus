@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import DayCard from "./DayCard/index.js";
-import HourCard from "./HourCard/index.js";
-import Icon from "./Icon/index.js";
+import DayCard from "./DayCard";
+import HourCard from "./HourCard";
+import Icon from "./Icon";
 import styles from "./style.module.scss";
 
 const API_KEY = "2d6026fb2c6a6ef3bbbc1f81c56baf04";
 
-const aucklandCoords = { lat: -36.85, lon: 174.76 };
+const AUCKLAND_COORDS = { lat: -36.85, lon: 174.76 };
 
 function Weather() {
-    const [icon, setIcon] = useState("04d");
-    const [main, setMain] = useState(undefined);
-    const [temp, setTemp] = useState(undefined);
+    const [icon, setIcon] = useState(null);
+    const [main, setMain] = useState(null);
+    const [temp, setTemp] = useState(null);
     const [maxTemp, setMaxTemp] = useState(null);
     const [minTemp, setMinTemp] = useState(null);
-    // const [description, setDescription] = useState("");
     const [dailyData, setDailyData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
     const [name, setName] = useState(null);
@@ -41,7 +40,6 @@ function Weather() {
                 setTemp(Math.floor(response.current.temp));
                 setMaxTemp(Math.floor(response.daily[0].temp.max));
                 setMinTemp(Math.floor(response.daily[0].temp.min));
-                // setDescription(response.current.weather[0].description);
                 setIcon(response.current.weather[0].icon);
 
                 // Hourly weather for next 6 hours
@@ -74,11 +72,11 @@ function Weather() {
                 },
                 // Permission not given to access location, so default to Auckland coordinates
                 function onError() {
-                    getWeatherData(aucklandCoords.lat, aucklandCoords.lon);
+                    getWeatherData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon);
                 }
             );
         } else {
-            getWeatherData(aucklandCoords.lat, aucklandCoords.lon);
+            getWeatherData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon);
         }
     }, []);
 

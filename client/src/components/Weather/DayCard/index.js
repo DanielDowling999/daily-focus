@@ -1,4 +1,4 @@
-import Icon from "../Icon/index";
+import Icon from "../Icon";
 import styles from "./DayCard.module.scss";
 
 function DayCard(props) {
