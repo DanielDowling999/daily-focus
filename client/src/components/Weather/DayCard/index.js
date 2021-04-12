@@ -62,7 +62,6 @@ function DayCard(props) {
     var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
     var dayNum = new Date(props.day.dt * 1000).getDay();
     var result = days[dayNum];
-    console.log(result);
 
     useEffect(() => {
         getWeatherIcon(props.day.weather[0].id);
@@ -73,8 +72,8 @@ function DayCard(props) {
             <div className={styles.day}>{result}</div>
             <div className={styles.iconContainer}>{icon}</div>
 
-            <div className={styles.lowTemp}>{toCelsius(props.day.main.temp_min)} °C</div>
-            <div className={styles.highTemp}>{toCelsius(props.day.main.temp_max)} °C</div>
+            <div className={styles.lowTemp}>{toCelsius(props.day.temp.min)} °C</div>
+            <div className={styles.highTemp}>{toCelsius(props.day.temp.max)} °C</div>
         </div>
     );
 }

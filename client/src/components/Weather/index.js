@@ -36,7 +36,7 @@ function Weather() {
     const [country, setCountry] = useState(null);
     const [iconURL, setIconURL] = useState(null);
 
-    /* the get_WeatherIcon functions set the weather icon based on the weather condition codes
+    /* the getWeatherIcon functions set the weather icon based on the weather condition codes
        see https://openweathermap.org/weather-conditions for more details
        cloud drizzle icon needs pro plan, so the cloud rain icon is used instead
     */
@@ -102,10 +102,9 @@ function Weather() {
                     `http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`
                 );
 
-                // const dailyData = response.daily.filter((reading) =>
-                //     reading.dt_txt.includes("12:00:00")
-                // );
-                // setDailyData(dailyData);
+                const dailyData = response.daily.slice(1, 6);
+
+                setDailyData(dailyData);
 
                 let hourArray = response.hourly.slice(0, 6);
 
@@ -134,11 +133,7 @@ function Weather() {
         )
             .then((res) => res.json())
             .then((data) => {
-                const dailyData = data.list.filter((reading) =>
-                    reading.dt_txt.includes("12:00:00")
-                );
-                console.log(dailyData);
-                setDailyData(dailyData);
+                // setDailyData(dailyData);
                 setName(data.city.name);
                 setCountry(data.city.country);
             });
