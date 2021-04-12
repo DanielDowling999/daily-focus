@@ -1,5 +1,5 @@
 import Icon from "../Icon";
-import styles from "./HourCard.module.scss";
+import styles from "./style.module.scss";
 
 var moment = require("moment");
 

@@ -1,5 +1,5 @@
 import Icon from "../Icon";
-import styles from "./DayCard.module.scss";
+import styles from "./style.module.scss";
 
 function DayCard(props) {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
