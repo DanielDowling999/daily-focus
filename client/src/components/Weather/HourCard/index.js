@@ -4,11 +4,6 @@ import styles from "./HourCard.module.scss";
 var moment = require("moment");
 
 function HourCard(props) {
-    const toCelsius = (temp) => {
-        const kelvinToCelsiusDiff = 273.15;
-        return Math.floor(temp - kelvinToCelsiusDiff);
-    };
-
     let dt = props.hour.dt;
     let date = new Date(dt * 1000);
     // Hours part from the timestamp
@@ -26,7 +21,7 @@ function HourCard(props) {
             <div className={styles.icon}>
                 <Icon icon={props.hour.weather[0].icon} />
             </div>
-            <div className={styles.temp}>{toCelsius(props.hour.temp)}°C</div>
+            <div className={styles.temp}>{Math.floor(props.hour.temp)}°C</div>
         </div>
     );
 }

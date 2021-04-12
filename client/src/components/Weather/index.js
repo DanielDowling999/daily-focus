@@ -11,19 +11,14 @@ const aucklandCoords = { lat: -36.85, lon: 174.76 };
 function Weather() {
     const [icon, setIcon] = useState("04d");
     const [main, setMain] = useState(undefined);
-    const [celsius, setCelsius] = useState(undefined);
+    const [temp, setTemp] = useState(undefined);
     const [maxTemp, setMaxTemp] = useState(null);
     const [minTemp, setMinTemp] = useState(null);
     const [description, setDescription] = useState("");
     const [dailyData, setDailyData] = useState([]);
-    const [hourlyData, SetHourlyData] = useState([]);
+    const [hourlyData, setHourlyData] = useState([]);
     const [name, setName] = useState(null);
     const [country, setCountry] = useState(null);
-
-    const toCelsius = (temp) => {
-        const kelvinToCelsiusDiff = 273.15;
-        return Math.floor(temp - kelvinToCelsiusDiff);
-    };
 
     const formatDayCards = (dailyData) => {
         return dailyData.map((day, index) => <DayCard day={day} key={index} />);
@@ -37,22 +32,22 @@ function Weather() {
     const getWeatherData = (lat, lon) => {
         // Get all the weather data (current, hourly for current day, and daily)
         fetch(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=alerts&appid=${API_KEY}`
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=alerts,minutely&appid=${API_KEY}`
         )
             .then((res) => res.json())
             .then((response) => {
                 // Current weather
                 setMain(response.current.weather[0].main);
-                setCelsius(toCelsius(response.current.temp));
-                setMaxTemp(toCelsius(response.daily[0].temp.max));
-                setMinTemp(toCelsius(response.daily[0].temp.min));
+                setTemp(Math.floor(response.current.temp));
+                setMaxTemp(Math.floor(response.daily[0].temp.max));
+                setMinTemp(Math.floor(response.daily[0].temp.min));
                 setDescription(response.current.weather[0].description);
                 setIcon(response.current.weather[0].icon);
                 console.log(response);
 
                 // Hourly weather for next 6 hours
-                const hourArray = response.hourly.slice(0, 6);
-                SetHourlyData(hourArray);
+                const hourlyData = response.hourly.slice(0, 6);
+                setHourlyData(hourlyData);
 
                 // Daily weather for next 5 days
                 const dailyData = response.daily.slice(1, 6);
@@ -103,7 +98,7 @@ function Weather() {
                             <div className={styles.weatherNZ}>
                                 {main} | {name}, {country}
                             </div>
-                            <div className={styles.temp}>{celsius}°C</div>
+                            <div className={styles.temp}>{temp}°C</div>
                             <div className={styles.tempBounds}>
                                 L:{minTemp}°C | H:{maxTemp}°C
                             </div>
