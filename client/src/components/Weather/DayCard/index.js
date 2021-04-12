@@ -59,7 +59,7 @@ function DayCard(props) {
     var i = 0;
     var data = { list: [{ dt: 1522666800 }] };
 
-    var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var dayNum = new Date(props.day.dt * 1000).getDay();
     var result = days[dayNum];
 
@@ -72,8 +72,8 @@ function DayCard(props) {
             <div className={styles.day}>{result}</div>
             <div className={styles.iconContainer}>{icon}</div>
 
-            <div className={styles.lowTemp}>{toCelsius(props.day.temp.min)} °C</div>
-            <div className={styles.highTemp}>{toCelsius(props.day.temp.max)} °C</div>
+            <div className={styles.lowTemp}>{toCelsius(props.day.temp.min)}°C</div>
+            <div className={styles.highTemp}>{toCelsius(props.day.temp.max)}°C</div>
         </div>
     );
 }
