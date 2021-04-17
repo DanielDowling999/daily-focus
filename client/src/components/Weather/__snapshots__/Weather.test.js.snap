@@ -8,50 +8,56 @@ exports[`it renders correctly 1`] = `
     className="container"
   >
     <div
-      className="wholeRectangle"
-    />
-    <div
       className="headerRectangle"
-    />
-    <div
-      className="weatherTextBox"
     >
-      Weather
+      <div
+        className="weatherTextBox"
+      >
+        Weather
+      </div>
     </div>
     <div
-      className="dailyForecast"
-    />
-    <div
-      className="hourlyForecast"
-    />
-    <div
-      className="currentWeatherBox"
+      className="content"
     >
       <div
-        className="iconContainer"
-      />
-      <div
-        className="description"
+        className="currentWeatherBox"
       >
         <div
-          className="weatherNZ"
+          className="iconContainer"
         >
-          
-          |Auckland, NZ
+          <Icon
+            icon={null}
+          />
         </div>
         <div
-          className="temp"
+          className="description"
         >
-          °C
-        </div>
-        <div
-          className="tempBounds"
-        >
-          L:
-          °C|H:
-          °C
+          <div
+            className="weatherNZ"
+          >
+             | 
+            , 
+          </div>
+          <div
+            className="temp"
+          >
+            °C
+          </div>
+          <div
+            className="tempBounds"
+          >
+            L:
+            °C | H:
+            °C
+          </div>
         </div>
       </div>
+      <div
+        className="hourlyForecast"
+      />
+      <div
+        className="dailyForecast"
+      />
     </div>
   </div>
 </div>
