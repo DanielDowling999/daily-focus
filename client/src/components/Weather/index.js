@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import DayCard from "./DayCard";
 import HourCard from "./HourCard";
 import Icon from "./Icon";
+import { getWeatherData, getLocationData } from "./WeatherService";
 import styles from "./style.module.scss";
-
-const API_KEY = "2d6026fb2c6a6ef3bbbc1f81c56baf04";
 
 const AUCKLAND_COORDS = { lat: -36.85, lon: 174.76 };
 
@@ -16,8 +15,9 @@ function Weather() {
     const [minTemp, setMinTemp] = useState(null);
     const [dailyData, setDailyData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
-    const [name, setName] = useState(null);
+    const [city, setCity] = useState(null);
     const [country, setCountry] = useState(null);
+    const [isError, setIsError] = useState(false);
 
     const formatDayCards = (dailyData) => {
         return dailyData.map((day, index) => <DayCard day={day} key={index} />);
@@ -28,55 +28,63 @@ function Weather() {
         return hourArray;
     };
 
-    const getWeatherData = (lat, lon) => {
-        // Get all the weather data (current, hourly for current day, and daily)
-        fetch(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=alerts,minutely&appid=${API_KEY}`
-        )
-            .then((res) => res.json())
-            .then((response) => {
-                // Current weather
-                setMain(response.current.weather[0].main);
-                setTemp(Math.floor(response.current.temp));
-                setMaxTemp(Math.floor(response.daily[0].temp.max));
-                setMinTemp(Math.floor(response.daily[0].temp.min));
-                setIcon(response.current.weather[0].icon);
-
-                // Hourly weather for next 6 hours
-                const hourlyData = response.hourly.slice(0, 6);
-                setHourlyData(hourlyData);
-
-                // Daily weather for next 5 days
-                const dailyData = response.daily.slice(1, 6);
-                setDailyData(dailyData);
-            });
-
-        // Get the city and country name for the requested coordinates
-        fetch(
-            `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-        )
-            .then((res) => res.json())
-            .then((response) => {
-                setName(response[0].name);
-                setCountry(response[0].country);
-            });
-    };
-
     useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 function (position) {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
-                    getWeatherData(lat, lon);
+                    getWeatherData(
+                        lat,
+                        lon,
+                        setIcon,
+                        setMain,
+                        setTemp,
+                        setMaxTemp,
+                        setMinTemp,
+                        setDailyData,
+                        setHourlyData,
+                        setIsError
+                    );
+                    getLocationData(lat, lon, setCity, setCountry, setIsError);
                 },
                 // Permission not given to access location, so default to Auckland coordinates
                 function onError() {
-                    getWeatherData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon);
+                    getWeatherData(
+                        AUCKLAND_COORDS.lat,
+                        AUCKLAND_COORDS.lon,
+                        setIcon,
+                        setMain,
+                        setTemp,
+                        setMaxTemp,
+                        setMinTemp,
+                        setDailyData,
+                        setHourlyData,
+                        setIsError
+                    );
+                    getLocationData(
+                        AUCKLAND_COORDS.lat,
+                        AUCKLAND_COORDS.lon,
+                        setCity,
+                        setCountry,
+                        setIsError
+                    );
                 }
             );
         } else {
-            getWeatherData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon);
+            getWeatherData(
+                AUCKLAND_COORDS.lat,
+                AUCKLAND_COORDS.lon,
+                setIcon,
+                setMain,
+                setTemp,
+                setMaxTemp,
+                setMinTemp,
+                setDailyData,
+                setHourlyData,
+                setIsError
+            );
+            getLocationData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon, setCity, setCountry, isError);
         }
     }, []);
 
@@ -86,24 +94,28 @@ function Weather() {
                 <div className={styles.headerRectangle}>
                     <div className={styles.weatherTextBox}>Weather</div>
                 </div>
-                <div className={styles.content}>
-                    <div className={styles.currentWeatherBox}>
-                        <div className={styles.iconContainer}>
-                            <Icon icon={icon} />
-                        </div>
-                        <div className={styles.description}>
-                            <div className={styles.weatherNZ}>
-                                {main} | {name}, {country}
+                {!isError ? (
+                    <div className={styles.content}>
+                        <div className={styles.currentWeatherBox}>
+                            <div className={styles.iconContainer}>
+                                <Icon icon={icon} />
                             </div>
-                            <div className={styles.temp}>{temp}°C</div>
-                            <div className={styles.tempBounds}>
-                                L:{minTemp}°C | H:{maxTemp}°C
+                            <div className={styles.description}>
+                                <div className={styles.weatherNZ}>
+                                    {main} | {city}, {country}
+                                </div>
+                                <div className={styles.temp}>{temp}°C</div>
+                                <div className={styles.tempBounds}>
+                                    L:{minTemp}°C | H:{maxTemp}°C
+                                </div>
                             </div>
                         </div>
+                        <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
+                        <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
                     </div>
-                    <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
-                    <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
-                </div>
+                ) : (
+                    <div className={styles.errorContainer}>Can not retrieve weather</div>
+                )}
             </div>
         </div>
     );
