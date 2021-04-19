@@ -17,6 +17,7 @@ function Weather() {
     const [hourlyData, setHourlyData] = useState([]);
     const [city, setCity] = useState(null);
     const [country, setCountry] = useState(null);
+    const [isError, setIsError] = useState(false);
 
     const formatDayCards = (dailyData) => {
         return dailyData.map((day, index) => <DayCard day={day} key={index} />);
@@ -42,9 +43,10 @@ function Weather() {
                         setMaxTemp,
                         setMinTemp,
                         setDailyData,
-                        setHourlyData
+                        setHourlyData,
+                        setIsError
                     );
-                    getLocationData(lat, lon, setCity, setCountry);
+                    getLocationData(lat, lon, setCity, setCountry, setIsError);
                 },
                 // Permission not given to access location, so default to Auckland coordinates
                 function onError() {
@@ -57,9 +59,16 @@ function Weather() {
                         setMaxTemp,
                         setMinTemp,
                         setDailyData,
-                        setHourlyData
+                        setHourlyData,
+                        setIsError
                     );
-                    getLocationData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon, setCity, setCountry);
+                    getLocationData(
+                        AUCKLAND_COORDS.lat,
+                        AUCKLAND_COORDS.lon,
+                        setCity,
+                        setCountry,
+                        setIsError
+                    );
                 }
             );
         } else {
@@ -72,9 +81,10 @@ function Weather() {
                 setMaxTemp,
                 setMinTemp,
                 setDailyData,
-                setHourlyData
+                setHourlyData,
+                setIsError
             );
-            getLocationData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon, setCity, setCountry);
+            getLocationData(AUCKLAND_COORDS.lat, AUCKLAND_COORDS.lon, setCity, setCountry, isError);
         }
     }, []);
 
@@ -84,24 +94,28 @@ function Weather() {
                 <div className={styles.headerRectangle}>
                     <div className={styles.weatherTextBox}>Weather</div>
                 </div>
-                <div className={styles.content}>
-                    <div className={styles.currentWeatherBox}>
-                        <div className={styles.iconContainer}>
-                            <Icon icon={icon} />
-                        </div>
-                        <div className={styles.description}>
-                            <div className={styles.weatherNZ}>
-                                {main} | {city}, {country}
+                {isError ? (
+                    <div className={styles.content}>
+                        <div className={styles.currentWeatherBox}>
+                            <div className={styles.iconContainer}>
+                                <Icon icon={icon} />
                             </div>
-                            <div className={styles.temp}>{temp}°C</div>
-                            <div className={styles.tempBounds}>
-                                L:{minTemp}°C | H:{maxTemp}°C
+                            <div className={styles.description}>
+                                <div className={styles.weatherNZ}>
+                                    {main} | {city}, {country}
+                                </div>
+                                <div className={styles.temp}>{temp}°C</div>
+                                <div className={styles.tempBounds}>
+                                    L:{minTemp}°C | H:{maxTemp}°C
+                                </div>
                             </div>
                         </div>
+                        <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
+                        <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
                     </div>
-                    <div className={styles.hourlyForecast}>{formatHourCards(hourlyData)}</div>
-                    <div className={styles.dailyForecast}>{formatDayCards(dailyData)}</div>
-                </div>
+                ) : (
+                    <div className={styles.errorContainer}>Can not retrieve weather</div>
+                )}
             </div>
         </div>
     );

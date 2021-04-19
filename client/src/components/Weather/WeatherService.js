@@ -9,7 +9,8 @@ function getWeatherData(
     setMaxTemp,
     setMinTemp,
     setDailyData,
-    setHourlyData
+    setHourlyData,
+    setIsError
 ) {
     // Get all the weather data (current, hourly for current day, and daily)
     fetch(
@@ -18,6 +19,7 @@ function getWeatherData(
         .then((res) => res.json())
         .then((response) => {
             // Current weather
+            setIsError(false);
             setMain(response.current.weather[0].main);
             setTemp(Math.floor(response.current.temp));
             setMaxTemp(Math.floor(response.daily[0].temp.max));
@@ -32,17 +34,24 @@ function getWeatherData(
             const dailyData = response.daily.slice(1, 6);
             setDailyData(dailyData);
             return response;
+        })
+        .catch(() => {
+            setIsError(true);
         });
 }
 
-function getLocationData(lat, lon, setCity, setCountry) {
+function getLocationData(lat, lon, setCity, setCountry, setIsError) {
     // Get the city and country name for the requested coordinates
     fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
         .then((res) => res.json())
         .then((response) => {
+            setIsError(false);
             setCity(response[0].name);
             setCountry(response[0].country);
             return response;
+        })
+        .catch(() => {
+            setIsError(true);
         });
 }
 
