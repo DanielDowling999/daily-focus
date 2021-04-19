@@ -94,7 +94,7 @@ function Weather() {
                 <div className={styles.headerRectangle}>
                     <div className={styles.weatherTextBox}>Weather</div>
                 </div>
-                {isError ? (
+                {!isError ? (
                     <div className={styles.content}>
                         <div className={styles.currentWeatherBox}>
                             <div className={styles.iconContainer}>
